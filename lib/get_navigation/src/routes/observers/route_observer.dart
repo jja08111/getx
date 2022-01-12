@@ -59,14 +59,8 @@ class GetObserver extends NavigatorObserver {
     // previous route instead of 'route' because this is
     // a 'inverse push'
     _routeSend?.update((value) {
-      // Only PageRoute is allowed to change current value
-      if (previousRoute is PageRoute) {
-        value.current = _extractRouteName(previousRoute) ?? '';
-        value.previous = newRoute.name ?? '';
-      } else if (value.previous.isNotEmpty) {
-        value.current = value.previous;
-      }
-
+      value.current = _extractRouteName(previousRoute) ?? '';
+      value.previous = newRoute.name ?? '';
       value.args = previousRoute?.settings.arguments;
       value.route = previousRoute;
       value.isBack = true;
@@ -99,10 +93,7 @@ class GetObserver extends NavigatorObserver {
 
     RouterReportManager.instance.reportCurrentRoute(route);
     _routeSend?.update((value) {
-      // Only PageRoute is allowed to change current value
-      if (route is PageRoute) {
-        value.current = newRoute.name ?? '';
-      }
+      value.current = newRoute.name ?? '';
       final previousRouteName = _extractRouteName(previousRoute);
       if (previousRouteName != null) {
         value.previous = previousRouteName;
@@ -162,11 +153,7 @@ class GetObserver extends NavigatorObserver {
     }
 
     _routeSend?.update((value) {
-      // Only PageRoute is allowed to change current value
-      if (newRoute is PageRoute) {
-        value.current = newName ?? '';
-      }
-
+      value.current = newName ?? '';
       value.args = newRoute?.settings.arguments;
       value.route = newRoute;
       value.isBack = false;
